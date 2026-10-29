@@ -11,20 +11,20 @@ Repositório-modelo das Aulas 21, 22 e 23: construção de dois dashboards em St
 
 Requer **Python 3.11 a 3.15**. Confira a sua versão antes de começar:
 
-| Sistema | Verificar versão |
-| --- | --- |
+| Sistema       | Verificar versão     |
+| ------------- | --------------------- |
 | macOS / Linux | `python3 --version` |
-| Windows | `py --version` |
+| Windows       | `py --version`      |
 
 ### 1. Criar e ativar o ambiente virtual
 
 O nome do comando do Python muda por sistema (em muitas máquinas `python` nem existe). Use a linha do seu sistema:
 
-| Sistema | Criar | Ativar |
-| --- | --- | --- |
-| macOS / Linux | `python3 -m venv .venv` | `source .venv/bin/activate` |
-| Windows (PowerShell) | `py -m venv .venv` | `.venv\Scripts\Activate.ps1` |
-| Windows (cmd) | `py -m venv .venv` | `.venv\Scripts\activate.bat` |
+| Sistema              | Criar                     | Ativar                         |
+| -------------------- | ------------------------- | ------------------------------ |
+| macOS / Linux        | `python3 -m venv .venv` | `source .venv/bin/activate`  |
+| Windows (PowerShell) | `py -m venv .venv`      | `.venv\Scripts\Activate.ps1` |
+| Windows (cmd)        | `py -m venv .venv`      | `.venv\Scripts\activate.bat` |
 
 Se você tem várias versões instaladas, escolha uma compatível, por exemplo `python3.12 -m venv .venv` (macOS/Linux) ou `py -3.12 -m venv .venv` (Windows).
 
@@ -58,10 +58,10 @@ streamlit run app.py
 
 ### O que vai para o Git
 
-| Pasta | Versionada? | Por quê |
-| --- | --- | --- |
-| `data/raw/` | **Não** (só o `.gitkeep`) | O bruto pode ser grande ou ter dados sensíveis, e o app não o usa. |
-| `data/clean/` | **Sim** | O Streamlit Community Cloud faz deploy a partir do GitHub e só enxerga o que está no repositório. Sem o CSV tratado no repo, o app funciona na sua máquina e **quebra no deploy**. |
+| Pasta           | Versionada?                         | Por quê                                                                                                                                                                                     |
+| --------------- | ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `data/raw/`   | **Não** (só o `.gitkeep`) | O bruto pode ser grande ou ter dados sensíveis, e o app não o usa.                                                                                                                         |
+| `data/clean/` | **Sim**                       | O Streamlit Community Cloud faz deploy a partir do GitHub e só enxerga o que está no repositório. Sem o CSV tratado no repo, o app funciona na sua máquina e **quebra no deploy**. |
 
 ### Antes de dar `git push` com o dado tratado
 
