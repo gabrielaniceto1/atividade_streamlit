@@ -3,6 +3,7 @@ import pandas as pd
 import streamlit as st
 
 from src.data_loader import load_data
+from src.metrics import compute_action_kpis, filter_action_movies
 
 
 st.set_page_config(
@@ -120,6 +121,178 @@ def histogram_chart(data: pd.DataFrame, variable: str) -> alt.Chart:
     )
 
 
+def format_money(value: float) -> str:
+    """Formata um valor monetário em milhões de dólares."""
+    if pd.isna(value):
+        return "—"
+    formatted = f"{value / 1_000_000:,.1f}".replace(",", "X")
+    formatted = formatted.replace(".", ",").replace("X", ".")
+    return f"US$ {formatted} mi"
+
+
+# [IA] ChatGPT Codex - apoio na sintaxe Altair dos quatro visuais do Dashboard 2.
+def classification_chart(data: pd.DataFrame) -> alt.Chart:
+    """Compara a bilheteria mundial mediana por classificação indicativa."""
+    summary = (
+        data.groupby("classificacao", as_index=False, observed=True)
+        .agg(
+            bilheteria_mediana=("bilheteria_mundial", "median"),
+            filmes=("titulo", "count"),
+        )
+        .dropna(subset=["bilheteria_mediana"])
+    )
+    rating_pick = alt.selection_point(
+        fields=["classificacao"], name="rating_pick", toggle="event.shiftKey"
+    )
+    return (
+        alt.Chart(summary)
+        .mark_bar(cornerRadiusTopLeft=4, cornerRadiusTopRight=4)
+        .encode(
+            x=alt.X("classificacao:N", title="Classificação indicativa", sort="-y"),
+            y=alt.Y(
+                "bilheteria_mediana:Q",
+                title="Bilheteria mundial mediana (US$)",
+                axis=alt.Axis(format="~s"),
+            ),
+            color=alt.condition(
+                rating_pick, alt.value("#b45309"), alt.value("#d6d3d1")
+            ),
+            tooltip=[
+                alt.Tooltip("classificacao:N", title="Classificação"),
+                alt.Tooltip(
+                    "bilheteria_mediana:Q", title="Mediana", format="$,.0f"
+                ),
+                alt.Tooltip("filmes:Q", title="Filmes"),
+            ],
+        )
+        .add_params(rating_pick)
+        .properties(height=300)
+    )
+
+
+def budget_revenue_chart(data: pd.DataFrame) -> alt.Chart:
+    """Relaciona orçamento e bilheteria mundial dos filmes selecionados."""
+    chart_data = data[
+        (data["orcamento"] > 0) & (data["bilheteria_mundial"] > 0)
+    ]
+    return (
+        alt.Chart(chart_data)
+        .mark_circle(size=75, opacity=0.68)
+        .encode(
+            x=alt.X(
+                "orcamento:Q",
+                title="Orçamento (US$, escala log)",
+                scale=alt.Scale(type="log"),
+                axis=alt.Axis(format="~s"),
+            ),
+            y=alt.Y(
+                "bilheteria_mundial:Q",
+                title="Bilheteria mundial (US$, escala log)",
+                scale=alt.Scale(type="log"),
+                axis=alt.Axis(format="~s"),
+            ),
+            color=alt.Color(
+                "classificacao:N",
+                title="Classificação",
+                scale=alt.Scale(scheme="goldorange"),
+            ),
+            tooltip=[
+                alt.Tooltip("titulo:N", title="Filme"),
+                alt.Tooltip("ano:Q", title="Ano", format="d"),
+                alt.Tooltip("classificacao:N", title="Classificação"),
+                alt.Tooltip("orcamento:Q", title="Orçamento", format="$,.0f"),
+                alt.Tooltip(
+                    "bilheteria_mundial:Q", title="Bilheteria mundial", format="$,.0f"
+                ),
+            ],
+        )
+        .properties(height=300)
+    )
+
+
+def decade_chart(data: pd.DataFrame) -> alt.Chart:
+    """Exibe a evolução da bilheteria mundial mediana por década."""
+    summary = (
+        data.groupby("decada", as_index=False, observed=True)
+        .agg(
+            bilheteria_mediana=("bilheteria_mundial", "median"),
+            filmes=("titulo", "count"),
+        )
+        .dropna(subset=["bilheteria_mediana"])
+        .sort_values("decada")
+    )
+    return (
+        alt.Chart(summary)
+        .mark_line(point=alt.OverlayMarkDef(size=85), color="#b45309", strokeWidth=3)
+        .encode(
+            x=alt.X("decada:O", title="Década", sort=summary["decada"].tolist()),
+            y=alt.Y(
+                "bilheteria_mediana:Q",
+                title="Bilheteria mundial mediana (US$)",
+                axis=alt.Axis(format="~s"),
+                scale=alt.Scale(zero=False),
+            ),
+            tooltip=[
+                alt.Tooltip("decada:O", title="Década"),
+                alt.Tooltip(
+                    "bilheteria_mediana:Q", title="Mediana", format="$,.0f"
+                ),
+                alt.Tooltip("filmes:Q", title="Filmes"),
+            ],
+        )
+        .properties(height=300)
+    )
+
+
+def market_composition_chart(data: pd.DataFrame) -> alt.Chart:
+    """Compara a composição doméstica e internacional da bilheteria por década."""
+    summary = (
+        data.groupby("decada", as_index=False, observed=True)[
+            ["bilheteria_domestica", "bilheteria_internacional"]
+        ]
+        .sum(min_count=1)
+        .sort_values("decada")
+    )
+    long_summary = summary.melt(
+        id_vars="decada",
+        var_name="mercado",
+        value_name="bilheteria",
+    )
+    long_summary["mercado"] = long_summary["mercado"].map(
+        {
+            "bilheteria_domestica": "Doméstica",
+            "bilheteria_internacional": "Internacional",
+        }
+    )
+    return (
+        alt.Chart(long_summary)
+        .mark_bar()
+        .encode(
+            x=alt.X("decada:O", title="Década", sort=summary["decada"].tolist()),
+            y=alt.Y(
+                "bilheteria:Q",
+                title="Bilheteria acumulada (US$)",
+                stack="normalize",
+                axis=alt.Axis(format="%"),
+            ),
+            color=alt.Color(
+                "mercado:N",
+                title="Mercado",
+                scale=alt.Scale(
+                    domain=["Doméstica", "Internacional"],
+                    range=["#1f2937", "#b45309"],
+                ),
+            ),
+            tooltip=[
+                alt.Tooltip("decada:O", title="Década"),
+                alt.Tooltip("mercado:N", title="Mercado"),
+                alt.Tooltip("bilheteria:Q", title="Bilheteria", format="$,.0f"),
+            ],
+        )
+        .properties(height=300)
+    )
+
+
 st.title("Explorador de bilheterias", icon=":material/movie:")
 st.caption(
     "Distribuição e correlação das variáveis quantitativas da base de filmes. "
@@ -136,6 +309,7 @@ except (FileNotFoundError, ValueError) as error:
 # [IA] ChatGPT Codex - apoio na organização dos widgets da barra lateral.
 with st.sidebar:
     st.header("Filtros", icon=":material/tune:")
+    st.subheader("Dashboard 1")
     selected_variables = st.multiselect(
         "Variáveis quantitativas",
         options=list(QUANTITATIVE_LABELS),
@@ -175,6 +349,28 @@ with st.sidebar:
             value=(slider_min, slider_max),
             key="numeric_interval",
         )
+
+    st.divider()
+    st.subheader("Dashboard 2")
+    action_movies = filter_action_movies(movies)
+    available_decades = sorted(action_movies["decada"].dropna().unique().tolist())
+    available_ratings = sorted(
+        action_movies["classificacao"].dropna().unique().tolist()
+    )
+    selected_decades = st.multiselect(
+        "Décadas dos filmes de ação",
+        options=available_decades,
+        default=available_decades,
+        help="Restringe todos os indicadores e visuais do Dashboard 2.",
+        key="action_decades",
+    )
+    selected_ratings = st.multiselect(
+        "Classificações indicativas",
+        options=available_ratings,
+        default=available_ratings,
+        help="Também pode ser refinado clicando no gráfico de classificação.",
+        key="action_ratings",
+    )
 
 
 filtered_movies = interval_filter(movies, interval_variable, interval)
@@ -238,9 +434,121 @@ with dashboard_one:
                         )
 
 with dashboard_two:
-    st.info(
-        "Esta etapa depende da definição autoral do público-alvo e de 3 a 5 KPIs, "
-        "conforme as regras da atividade.",
-        title="Definição de métricas pendente",
-        icon=":material/edit_note:",
+    st.subheader("Desempenho comercial de filmes de ação", icon=":material/trending_up:")
+    st.caption(
+        "Painel para empresários avaliarem escala de investimento, alcance de mercado e "
+        "retorno bruto potencial. Os valores são nominais e a amostra reúne filmes entre "
+        "as maiores bilheterias mundiais, portanto não representa toda a produção do gênero."
     )
+
+    dashboard_two_movies = filter_action_movies(
+        movies, decades=selected_decades, ratings=selected_ratings
+    )
+
+    if dashboard_two_movies.empty:
+        st.warning(
+            "Selecione ao menos uma década e uma classificação com filmes disponíveis.",
+            title="Nenhum filme de ação no recorte",
+        )
+    else:
+        metric_area = st.container()
+        st.markdown("#### Comparação por classificação")
+        st.caption(
+            "Clique em uma barra para refinar os KPIs e os outros visuais; use Shift para "
+            "selecionar mais de uma classificação."
+        )
+        rating_event = st.altair_chart(
+            classification_chart(dashboard_two_movies),
+            width="stretch",
+            key="rating_crossfilter",
+            on_select="rerun",
+            selection_mode="rating_pick",
+            alt="Bilheteria mundial mediana dos filmes de ação por classificação indicativa.",
+        )
+
+        rating_selection = rating_event.selection.get("rating_pick", [])
+        clicked_ratings = [
+            item["classificacao"]
+            for item in rating_selection
+            if isinstance(item, dict) and "classificacao" in item
+        ]
+        detailed_movies = (
+            dashboard_two_movies[
+                dashboard_two_movies["classificacao"].isin(clicked_ratings)
+            ]
+            if clicked_ratings
+            else dashboard_two_movies
+        )
+        kpis = compute_action_kpis(detailed_movies)
+
+        with metric_area:
+            st.caption(
+                f"{len(detailed_movies):,} filmes de ação no recorte usado pelos indicadores."
+            )
+            metric_columns = st.columns(5)
+            metric_columns[0].metric(
+                "Orçamento mediano",
+                format_money(kpis["median_budget"]),
+                help="Mediana do orçamento de produção informado.",
+                border=True,
+            )
+            metric_columns[1].metric(
+                "Bilheteria mundial mediana",
+                format_money(kpis["median_worldwide"]),
+                help="Mediana da bilheteria mundial nominal.",
+                border=True,
+            )
+            metric_columns[2].metric(
+                "Múltiplo bruto mediano",
+                (
+                    f"{kpis['median_gross_multiple']:.2f}×"
+                    if pd.notna(kpis["median_gross_multiple"])
+                    else "—"
+                ),
+                help="Mediana de bilheteria mundial ÷ orçamento por filme; não equivale a lucro.",
+                border=True,
+            )
+            metric_columns[3].metric(
+                "Participação internacional",
+                (
+                    f"{kpis['median_international_share']:.1f}%"
+                    if pd.notna(kpis["median_international_share"])
+                    else "—"
+                ),
+                help="Mediana da parcela internacional na bilheteria mundial de cada filme.",
+                border=True,
+            )
+            metric_columns[4].metric(
+                "Abertura doméstica mediana",
+                format_money(kpis["median_domestic_opening"]),
+                help="Mediana da receita no fim de semana de estreia doméstica.",
+                border=True,
+            )
+
+        st.markdown("#### Relações e evolução comercial")
+        chart_row_one = st.columns(2)
+        with chart_row_one[0].container(border=True):
+            st.markdown("**Orçamento × bilheteria mundial**")
+            st.altair_chart(
+                budget_revenue_chart(detailed_movies),
+                width="stretch",
+                alt="Relação entre orçamento e bilheteria mundial dos filmes de ação.",
+            )
+        with chart_row_one[1].container(border=True):
+            st.markdown("**Evolução por década**")
+            st.altair_chart(
+                decade_chart(detailed_movies),
+                width="stretch",
+                alt="Evolução da bilheteria mundial mediana de filmes de ação por década.",
+            )
+
+        with st.container(border=True):
+            st.markdown("**Composição doméstica × internacional**")
+            st.caption(
+                "Participação percentual na bilheteria acumulada do recorte em cada década."
+            )
+            st.altair_chart(
+                market_composition_chart(detailed_movies),
+                width="stretch",
+                alt="Composição percentual doméstica e internacional da bilheteria por década.",
+            )
