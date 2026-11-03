@@ -7,6 +7,15 @@ Repositório-modelo das Aulas 21, 22 e 23: construção de dois dashboards em St
 - Dashboard 1 = correlação + distribuição das variáveis quantitativas
 - Dashboard 2 = KPIs
 
+## Projeto desenvolvido
+
+O projeto usa uma base tratada com 1.000 filmes entre as maiores bilheterias mundiais. Os valores financeiros são nominais e não foram corrigidos pela inflação, portanto as comparações entre períodos devem ser lidas com essa limitação.
+
+- **Dashboard 1:** laboratório de distribuição e correlação de Spearman, com seletor de variáveis, filtro numérico por intervalo, mapa de calor e histogramas.
+- **Dashboard 2:** indicadores para empresários interessados em filmes de ação, com filtros e visuais voltados à comparação de resultados comerciais.
+
+O carregamento do CSV usa `@st.cache_data`, valida o esquema necessário e resolve o caminho do arquivo a partir da raiz do projeto. Os cenários de seleção vazia, uma variável e mudança de escala do filtro são cobertos por testes headless do Streamlit.
+
 ## Setup
 
 Requer **Python 3.11 a 3.15**. Confira a sua versão antes de começar:
@@ -75,6 +84,16 @@ streamlit run app.py
 O passo a passo detalhado de cada aula (Aulas 21, 22 e 23), com pré-requisitos e objetivos, está em [ROTEIRO.md](ROTEIRO.md). Comece por ele depois do Setup.
 
 **Link do app (Aula 23):** _(preencher após o deploy)_
+
+## Testes
+
+Com o ambiente virtual ativo, execute:
+
+```bash
+python -m unittest discover -s tests -v
+```
+
+Os testes usam `streamlit.testing.v1.AppTest` e não precisam abrir navegador nem iniciar um servidor.
 
 ## IA neste projeto
 
