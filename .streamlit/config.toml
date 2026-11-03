@@ -1,20 +1,47 @@
-# Configuração do Streamlit. Descomente e ajuste conforme o projeto avançar.
-# O tema pode ser trocado pelo menu ⋮ → Settings → Choose app theme.
+# [IA] ChatGPT Codex - apoio na identidade visual e na sintaxe do tema Streamlit.
 
 [theme]
-paddingTop = "0.0rem"     # espaço abaixo da barra do topo (valor entre aspas)
-# font = "sans serif"     # "sans serif", "serif" ou "monospace"
+font = "sans-serif"
+baseRadius = "0.5rem"
+buttonRadius = "0.5rem"
+showWidgetBorder = true
+showSidebarBorder = true
+paddingTop = "1rem"
+paddingBottom = "2rem"
+chartCategoricalColors = ["#B45309", "#1D4ED8", "#047857", "#7C3AED", "#BE123C", "#0E7490", "#4B5563"]
 
 [theme.light]
-primaryColor = "#c1121f"            # cor de destaque (widgets, links): mesmo vermelho dos histogramas
-backgroundColor = "#ffffff"         # fundo da página
-secondaryBackgroundColor = "#f0f2f6"  # fundo da sidebar e de widgets
-textColor = "#31333f"               # cor do texto
-borderColor = "#d5dae5"
+primaryColor = "#A44F05"
+backgroundColor = "#FCFAF5"
+secondaryBackgroundColor = "#F1EADD"
+textColor = "#1D2939"
+borderColor = "#D8CDBB"
+codeBackgroundColor = "#F4EFE6"
+linkColor = "#8A3F03"
 
 [theme.dark]
-primaryColor = "#c1121f"
-backgroundColor = "#0e1117"
-secondaryBackgroundColor = "#262730"
-textColor = "#fafafa"
-borderColor = "#41444e"
+primaryColor = "#B45309"
+backgroundColor = "#111827"
+secondaryBackgroundColor = "#1F2937"
+textColor = "#F9FAFB"
+borderColor = "#374151"
+codeBackgroundColor = "#1F2937"
+linkColor = "#FBBF24"
+
+[theme.light.sidebar]
+backgroundColor = "#172033"
+secondaryBackgroundColor = "#243047"
+textColor = "#F9FAFB"
+borderColor = "#334155"
+primaryColor = "#B45309"
+linkColor = "#FBBF24"
+paddingTop = "1rem"
+
+[theme.dark.sidebar]
+backgroundColor = "#080D18"
+secondaryBackgroundColor = "#172033"
+textColor = "#F9FAFB"
+borderColor = "#293548"
+primaryColor = "#B45309"
+linkColor = "#FBBF24"
+paddingTop = "1rem"
