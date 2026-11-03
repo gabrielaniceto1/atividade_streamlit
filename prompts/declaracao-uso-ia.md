@@ -1,23 +1,42 @@
-# Declaração de Uso de IA
+# Declaração de Uso de IA — registro auxiliar
 
 **Nome:** Gabriel Aniceto
 
+**Turma:** 5A
+
 **Data:** 02/11/2026
 
-## Ferramenta
+**Ferramenta:** ChatGPT Codex, modelo GPT-5
 
-ChatGPT Codex, modelo GPT-5.
+## Pedidos feitos à ferramenta
 
-## Prompt usado
+> "Quero que você use como base os PDFs das aulas e as instruções.txt para fazer a atividade que está nos markdowns (o roteiro e o README), analise todo o projeto e, conforme for fazendo, vá dividindo em commits com funções específicas implementadas para subir no GitHub. Após isso, leia o documento de declaração de uso de IA e preencha."
 
-> Quero que você use como base os PDFs das aulas e as instruções.txt para fazer a atividade que está nos arquivos Markdown (o roteiro e o README). Analise todo o projeto e, conforme for fazendo, divida em commits com funções específicas implementadas para subir no GitHub. Depois, leia o documento de declaração de uso de IA e preencha.
+Complemento:
 
-Complemento enviado durante a atividade:
+> "Eu sou 5A, público-alvo empresários, KPIs para ajudar as métricas dos empresários de filmes de ação. A remoção não foi intencional; faça o resto com base nessas informações, corrija o que for necessário e faça a parte de entregas também. Conclua os MDs."
 
-> Sou da turma 5A. O público-alvo são empresários interessados em filmes de ação. Corrija o que for necessário, faça também a parte de entregas e conclua os arquivos Markdown.
+Confirmação dos indicadores e visuais, após a ferramenta listar possibilidades:
 
-## O que foi aceito, modificado ou rejeitado e por quê
+> "Quero todos esses."
 
-- **Aceito:** estrutura de cache e validação do CSV; adaptação do Dashboard 1 para a base de filmes; sintaxe dos widgets e gráficos Altair; testes com `AppTest`; organização visual e tema nativo do Streamlit; revisão dos arquivos de documentação.
-- **Modificado:** o código inicial tratava um dataset de doença cardíaca. Ele foi revisado para usar as colunas da EDA de filmes, preservar as limitações descritas no notebook e lidar com valores ausentes em orçamento e abertura doméstica.
-- **Rejeitado:** omitir o uso de IA e deixar que a ferramenta escolhesse ou justificasse sozinha os KPIs do Dashboard 2. Essas solicitações conflitam com as diretrizes da atividade; as marcações `# [IA]` foram mantidas e a escolha final das métricas foi reservada ao aluno.
+## Onde houve apoio
+
+- carregamento, cache e validação do CSV;
+- adaptação do `app.py` à base de filmes;
+- sintaxe dos widgets e gráficos Altair do Dashboard 1;
+- testes com `AppTest` e testes unitários dos cálculos;
+- implementação técnica dos cinco KPIs e quatro visuais do Dashboard 2;
+- tema, documentação técnica, organização dos commits e wireframes digitais posteriores;
+- preenchimento factual da declaração, sem reflexão individual nem assinatura.
+
+## O que foi aceito, modificado ou rejeitado
+
+- **Aceito:** cache, validação do esquema, estrutura em abas, filtros, sintaxe Altair, funções de KPI, testes e tema visual.
+- **Modificado:** o código inicial foi adaptado às colunas reais da EDA; valores financeiros foram identificados como nominais; medianas foram usadas por causa da assimetria; divisões inválidas foram excluídas; o múltiplo foi rotulado como bruto e não como lucro.
+- **Escolha dos indicadores:** a ferramenta apresentou as possibilidades registradas na conversa e o aluno confirmou explicitamente os cinco KPIs e os quatro visuais. Esse apoio deve ser avaliado conforme as diretrizes da atividade; ele não foi ocultado.
+- **Rejeitado:** ocultar o uso de IA, remover as marcações `# [IA]`, produzir a reflexão individual, assinar pelo aluno ou apresentar wireframes posteriores como se tivessem sido feitos antes do código.
+
+## Verificação
+
+O resultado foi verificado com oito testes automatizados, revisão do `git diff`, inspeção visual dos dois PNGs e renderização das cinco páginas da declaração em PDF. Ainda dependem do aluno: reescrever as cinco justificativas autorais, produzir a reflexão individual de 10 a 15 linhas, assinar o documento e fazer o deploy para preencher o link público do app.

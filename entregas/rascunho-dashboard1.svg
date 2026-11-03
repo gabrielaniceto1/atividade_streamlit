@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <rect width="1600" height="1000" fill="#f7f3eb"/>
+  <rect x="0" y="0" width="330" height="1000" fill="#20242b"/>
+  <text x="52" y="72" font-family="Arial" font-size="30" font-weight="700" fill="#ffffff">FILTROS</text>
+  <text x="52" y="118" font-family="Arial" font-size="18" fill="#d6d3d1">Dashboard 1</text>
+  <rect x="40" y="145" width="250" height="150" rx="10" fill="#343a43" stroke="#c88a38" stroke-width="2"/>
+  <text x="60" y="181" font-family="Arial" font-size="16" fill="#ffffff">Variáveis quantitativas</text>
+  <rect x="60" y="203" width="205" height="30" rx="5" fill="#f1eee8"/>
+  <rect x="60" y="247" width="205" height="30" rx="5" fill="#f1eee8"/>
+  <rect x="40" y="322" width="250" height="170" rx="10" fill="#343a43" stroke="#c88a38" stroke-width="2"/>
+  <text x="60" y="358" font-family="Arial" font-size="16" fill="#ffffff">Filtro de intervalo</text>
+  <rect x="60" y="382" width="205" height="36" rx="5" fill="#f1eee8"/>
+  <line x1="70" y1="458" x2="255" y2="458" stroke="#d6d3d1" stroke-width="5"/>
+  <circle cx="95" cy="458" r="10" fill="#c88a38"/>
+  <circle cx="225" cy="458" r="10" fill="#c88a38"/>
+  <text x="380" y="75" font-family="Arial" font-size="38" font-weight="700" fill="#20242b">Explorador de bilheterias</text>
+  <text x="380" y="112" font-family="Arial" font-size="18" fill="#5b616a">Distribuição e correlação das variáveis quantitativas</text>
+  <rect x="380" y="155" width="1165" height="340" rx="14" fill="#ffffff" stroke="#d3c7b8" stroke-width="2"/>
+  <text x="412" y="198" font-family="Arial" font-size="24" font-weight="700" fill="#20242b">Correlação de Spearman</text>
+  <g stroke="#e6ddd1" stroke-width="2">
+    <rect x="540" y="228" width="100" height="62" fill="#c88a38"/><rect x="642" y="228" width="100" height="62" fill="#f6e5c8"/><rect x="744" y="228" width="100" height="62" fill="#677a93"/><rect x="846" y="228" width="100" height="62" fill="#e0b66f"/>
+    <rect x="540" y="292" width="100" height="62" fill="#f6e5c8"/><rect x="642" y="292" width="100" height="62" fill="#c88a38"/><rect x="744" y="292" width="100" height="62" fill="#d8cdbf"/><rect x="846" y="292" width="100" height="62" fill="#cc9445"/>
+    <rect x="540" y="356" width="100" height="62" fill="#677a93"/><rect x="642" y="356" width="100" height="62" fill="#d8cdbf"/><rect x="744" y="356" width="100" height="62" fill="#c88a38"/><rect x="846" y="356" width="100" height="62" fill="#f0d3a3"/>
+  </g>
+  <rect x="380" y="535" width="565" height="355" rx="14" fill="#ffffff" stroke="#d3c7b8" stroke-width="2"/>
+  <rect x="980" y="535" width="565" height="355" rx="14" fill="#ffffff" stroke="#d3c7b8" stroke-width="2"/>
+  <text x="412" y="578" font-family="Arial" font-size="22" font-weight="700" fill="#20242b">Histograma 1</text>
+  <text x="1012" y="578" font-family="Arial" font-size="22" font-weight="700" fill="#20242b">Histograma 2</text>
+  <g fill="#c88a38"><rect x="430" y="790" width="42" height="60"/><rect x="480" y="730" width="42" height="120"/><rect x="530" y="650" width="42" height="200"/><rect x="580" y="690" width="42" height="160"/><rect x="630" y="760" width="42" height="90"/><rect x="1030" y="770" width="42" height="80"/><rect x="1080" y="705" width="42" height="145"/><rect x="1130" y="630" width="42" height="220"/><rect x="1180" y="680" width="42" height="170"/><rect x="1230" y="745" width="42" height="105"/></g>
+  <text x="380" y="953" font-family="Arial" font-size="18" font-style="italic" fill="#7b4f1d">Reconstrução digital posterior à implementação — apoio técnico de IA declarado.</text>
+</svg>

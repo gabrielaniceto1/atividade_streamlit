@@ -12,7 +12,7 @@ Repositório-modelo das Aulas 21, 22 e 23: construção de dois dashboards em St
 O projeto usa uma base tratada com 1.000 filmes entre as maiores bilheterias mundiais. Os valores financeiros são nominais e não foram corrigidos pela inflação, portanto as comparações entre períodos devem ser lidas com essa limitação.
 
 - **Dashboard 1:** laboratório de distribuição e correlação de Spearman, com seletor de variáveis, filtro numérico por intervalo, mapa de calor e histogramas.
-- **Dashboard 2:** indicadores para empresários interessados em filmes de ação, com filtros e visuais voltados à comparação de resultados comerciais.
+- **Dashboard 2:** painel para empresários interessados em filmes de ação, com filtros por década e classificação indicativa. Apresenta orçamento mediano, bilheteria mundial mediana, múltiplo bruto bilheteria/orçamento, participação internacional e abertura doméstica mediana. Os quatro visuais comparam orçamento × bilheteria mundial, bilheteria por classificação, evolução por década e composição doméstica × internacional.
 
 O carregamento do CSV usa `@st.cache_data`, valida o esquema necessário e resolve o caminho do arquivo a partir da raiz do projeto. Os cenários de seleção vazia, uma variável e mudança de escala do filtro são cobertos por testes headless do Streamlit.
 
@@ -93,7 +93,7 @@ Com o ambiente virtual ativo, execute:
 python -m unittest discover -s tests -v
 ```
 
-Os testes usam `streamlit.testing.v1.AppTest` e não precisam abrir navegador nem iniciar um servidor.
+Os oito testes usam `streamlit.testing.v1.AppTest` e funções unitárias; eles não precisam abrir navegador nem iniciar um servidor. A suíte cobre os widgets e gráficos padrão, seleções vazias, mudança de escala do filtro, recorte de filmes de ação, fórmulas dos KPIs e divisões inválidas.
 
 ## IA neste projeto
 

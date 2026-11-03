@@ -10,17 +10,17 @@ Artefatos de entrega que não são sobre uso de IA (isso fica em [`prompts/`](..
 
 ## Checklist — Aula 21
 
-- [ ] `rascunho-dashboard1.jpg`/`.png`
+- [x] `rascunho-dashboard1.png` (reconstrução digital posterior, identificada no arquivo)
 
 ## Checklist — Aula 22
 
-- [ ] `rascunho-dashboard2.jpg`/`.png`
-- [ ] `justificativa-metricas.md` preenchido (não só criado vazio)
+- [x] `rascunho-dashboard2.png` (reconstrução digital posterior, identificada no arquivo)
+- [ ] `justificativa-metricas.md` estruturado; falta o aluno reescrever as cinco justificativas autorais
 
 ## Checklist — entrega final (Aula 23)
 
-- [ ] Os dois rascunhos
-- [ ] `justificativa-metricas.md` completo
+- [x] Os dois wireframes digitais reconstruídos e identificados com transparência
+- [ ] `justificativa-metricas.md` completo após a revisão autoral dos cinco campos marcados
 
 ## Modelo de `justificativa-metricas.md`
 
